@@ -292,17 +292,6 @@ export default function Home() {
       >
         <BsArchiveFill />
       </button>
-
-      <a
-        href="https://vercel.com/?utm_source=mag-lit&utm_campaign=oss"
-        rel="noreferrer"
-        target="_blank"
-      >
-        <img
-          src="/powered-by-vercel.svg"
-          alt="Powered by Vercel"
-          className="absolute right-5 bottom-5 w-52 mix-blend-exclusion"
-        />
       </a>
 
       {/* TOASTIFY */}

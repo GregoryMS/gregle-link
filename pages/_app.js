@@ -18,13 +18,13 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>MagLit🔥 - Privacy Respecting Encrypted Link Shortener</title>
+        <title>Gregle Link - Privacy Respecting Encrypted Link Shortener</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta
           name="description"
           content="Encrypted & Privacy Respecting Magnet/HTTP(s) Link Shortener"
         />
-        <meta property="og:title" content="MagLit🔥" />
+        <meta property="og:title" content="Gregle Link" />
         <meta
           property="og:description"
           content="A Free and Open Source Encrypted Privacy Respecting Magnet/HTTP(s) Link Shortener"
@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="twitter:card" content="summary" />
         <meta
           property="twitter:title"
-          content="MagLit🔥 - Encrypted Private Link Shortener"
+          content="Gregle Link - Encrypted Private Link Shortener"
         />
         <meta
           property="twitter:description"
