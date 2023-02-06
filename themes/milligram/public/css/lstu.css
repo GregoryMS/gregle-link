@@ -1,0 +1,112 @@
+@font-face {
+    font-family: 'Henny_Penny';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Henny Penny'), local('HennyPenny-Regular'), url('../font/hennypenny.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Oswald';
+    font-style: bold;
+    font-weight: 400;
+    src: local('Oswald'), url('../font/Oswald-Bold.ttf')
+}
+
+@font-face {
+    font-family: 'OpenSans';
+    font-style: normal;
+    font-weight: 200;
+    src: local('OpenSans'), url('../font/OpenSans-Regular.ttf')
+}
+
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+.container {
+    padding: 15px;
+    margin: 0 auto;
+}
+.oswald {
+    font-family: 'Oswald';
+    font-size: 42px;
+}
+.hennypenny {
+    font-family: 'Henny_Penny', cursive;
+    font-size: 42px;
+}
+.link_nocol, .link_nocol:hover {
+    color: #000;
+    text-decoration: none;
+}
+.result {
+    border-color: #d6e9c6;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid;
+    border-radius: 4px;
+}
+.result a.button {
+    padding: 0;
+}
+ul.pager {
+    list-style: none outside;
+    text-align: center;
+}
+ul.pager li {
+    display: inline;
+}
+.disabled {
+    display: none !important;
+}
+@media (max-width: 767px) {
+    .hidden-xs {
+        display: none !important;
+    }
+}
+.qrcode-result {
+    float: right;
+}
+dd > strong {
+    padding-left: 15px;
+}
+.allons-y {
+    border-style: none;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.3) 0%, rgba(255,255,255, 0.5) 100%, transparent 25px) no-repeat, #9B4DCA;
+    background-repeat: no-repeat, no-repeat;
+    border-radius: 5px;
+    box-shadow: 2px 2px 1px 1px rgba(0,0,0,0.3);
+    padding: 8px;
+    margin-right: 9px;
+    color: white;
+    font-family: 'OpenSans';
+    font-size: 14px;
+    background-size: 0 100%, 100% 100%;
+    transition: background-size 0.3s; 
+}
+
+.allons-y:hover {
+    background-size: 101% 100%;
+    background-color: #9B4DCA !important;
+}
+.allons-y:active {
+    box-shadow: none; transform: translate(2px, 2px); transition: all 0.1s;
+}
+@media (max-width:767px) {
+    .hidden-xs{
+        display:none !important
+    }
+}
+@media (min-width:768px) and (max-width:991px) {
+    .hidden-sm{
+        display:none !important
+    }
+}
+@media (min-width:992px) and (max-width:1199px) {
+    .hidden-md{
+        display:none !important
+    }
+}
+@media (min-width:1200px) {
+    .hidden-lg{display:none !important
+    }
+}

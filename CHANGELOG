@@ -1,0 +1,241 @@
+Revision history for Perl application Lstu
+
+0.28-0 ????-??-??
+
+0.27-0 2023-01-11
+	- 🐛 Fix length of ip column for MySQL (#64)
+	- 🔥 Remove everything about browser extensions (#98)
+	- 🌐 Update translations
+
+0.26-0 2022-05-23
+	- ✨ Add a config setting to change QR code size
+
+0.25-0 2022-05-09
+	- ✨ Add a config flag to disable API
+	- ⚡ Use a HEAD request instead of a GET when checking for redirections
+	- 🐛 Handle disabled URLs in `url` CLI command
+
+0.24-0 2022-04-26
+	- ✨ Allow to sort results in admin stats page (#91)
+	- Fix disabled URLs still showing in admin interface (#79)
+	- Make a distinction between inexistant and disabled URLs
+
+0.23-0 2021-04-26
+	- Update translations
+	- Improve tests
+	- Improve CI
+	- Upgrade some dependencies
+
+0.22-0 2019-11-08
+	- Disable URLs instead of removing them (prevents spammers to reuse a
+	  deleted shortened URL)
+	- Slugify custom URLs and add a suffix (-2, -3…) if the custom URL is
+	  already taken
+	- Allow to search several IP addresses at once
+	- New logo and update theme!
+	- Now use https://weblate.framasoft.org/projects/lstu for translations
+
+0.21-4 2018-12-17
+	- Add a lockfile to GSB database update to prevent concurrent updates
+
+0.21-3 2018-11-19
+	- Fix Pg sessions and urls delete fonctions
+
+0.21-2 2018-11-19
+	- Fix URL removal in memcached from safebrowsingcheck and url commands
+
+0.21-1 2018-10-17
+	- Fix URL removal in memcached from safebrowsingcheck command
+
+0.21-0 2018-10-17
+	- Allow to delete URLs and ban IPs from safebrowsingcheck
+	- Add ban CLI tool for banning and unbanning IP addresses
+
+0.20-2 2018-10-07
+	- Handle very long URLs
+
+0.20-1 2018-09-20
+	- Fix safebrowsingcheck CLI help message
+
+0.20-0 2018-09-20
+	- Docker port, thanks to Arnaud de Mouhy
+	- Improve safebrowsingcheck CLI:
+	  - displays creators' IP addresses + other URLs from thoses IPs
+	  - allow to specify URLs to check
+	  - allow to check URLs created <argument> seconds ago
+
+0.19-3 2018-09-08
+	- Update translations
+
+0.19-2 2018-09-08
+	- Improve GSB object creation and GSB DB update
+
+0.19-1 2018-09-08
+	- Update translations
+
+0.19-0 2018-09-08
+	- Allow to use Google Safe Browsing database to check if the URLs are harmless
+	  It uses a local copy of the GSB DB, so Google won't see the URLs to shorten
+	- safebrowsingcheck CLI to check all the URLs in the database against GSB DB.
+	  usage: carton exec script/lstu safebrowsingcheck
+	- Fix bugs (#45)
+
+0.18-1 2018-08-21
+	- Update url CLI help message
+
+0.18-0 2018-08-20
+	- Add option to store IP address of URL creator
+	- Add command to search URL with the IP address of its creator
+	- Add option to blacklist IP address
+	- Allow to remove multiple URLs at once with the CLI
+
+0.17-3 2018-08-20
+	- Fix missing default db_path
+
+0.17-2 2018-05-15
+	- Add ability to respond to /robots.txt either by sending the file if it exists or by answering 404
+
+0.17-1 2018-04-28
+	- Fix bug in making LDAP and Htpasswd dependencies optional
+
+0.17 2018-04-28
+	- Import URL into cookie by JSON upload
+	- Add X-Content-Type-Options, X-XSS-Protection and X-Frame-Options headers
+	- More dependencies become optional to install
+	- Some refactoring
+	- Add LDAP tests to test suite
+
+0.16-1 2018-04-27
+	- Fix bug in LDAP authentication
+
+0.16 2018-04-24
+	- Add Content-Security-Policy header
+	- Use Memcached for cache system (previous cache was unstable)
+
+0.15-2 2018-04-23
+	- Update Mojolicious::Plugin::GzipStatic
+
+0.15-1 2018-04-23
+	- Fix url command help function
+
+0.15 2018-04-23
+	- Add CLI command to search and delete url
+	- Fix CI
+
+0.14-1 2018-04-23
+	- Fix for PostgreSQL and MySQL connections
+
+0.14 2018-04-22
+	- Use same DB backend for Minion than db_type
+
+0.13-1 2018-04-22
+	- Better CSS minification
+
+0.13 2018-04-22
+	- Gzip static assets with Mojolicious::Plugin::GzipStatic (increase page load speed)
+	- Other page load speed improvements
+
+0.12-1 2018-04-22
+	- Force Mojo::SQLite version
+
+0.12 2018-04-22
+	- Improve LDAP User Authentication Support (beware of configuration changes!) <Ira W.  Snyder>
+	- Allow users to configure maximum number of database connections <Ira W.  Snyder>
+	- Use CHI for cache system
+	- Move some tasks to recurring instead of being in after_dispatch hook
+	- Allow to install only deps related to one DB instead of all supported DBs
+	- Use Mojo::SQLite instead of ORLite
+	- Better CI
+	- Put documentation on the wiki (https://framagit.org/luc/lstu/wikis/home)
+	- Update dependencies
+	- Fix bugs
+
+0.11-2 2018-03-22
+	- Update packages dependencies in README
+	- Fix CI
+
+0.11-1 2018-03-22
+	- Update dependencies
+
+0.11 2018-03-22
+	- Add home link to stats page
+	- Fix copy-to-clipboard button
+	- Option to blacklist URLs whose path part matches the configured regex
+
+0.10 2018-02-22
+	- Performance improvments (cache + assets minification)
+	- Add /stats/:short API endpoint
+	- Update API page
+	- Zanata integration (https://trad.framasoft.org)
+
+0.09-2 2017-09-05
+	- Handle redirections without host
+
+0.09-1 2017-09-05
+	- Handle redirections without host
+
+0.09 2017-09-05
+	- Add QRcode generation
+	- Option to disable the spamhaus check (#29)
+	- Option to blacklist and/or whitelist domains (#30)
+	- Option to set the maximum number of redirections (#31)
+	- Instance statistics available at /fullstats URL
+	- Now return 404 status for non-existent URLs
+
+0.08 2017-02-08
+	- Add Piwik tracking option
+	- Add Minion option for async counters increasing
+	- Add LDAP and Htpasswd authentication (#8)
+	- Add Database abstraction layer
+	- Add PostgreSQL (#21)
+	- Allow to run several Lstu's instances from the same code but with
+	  different configuration files (#23)
+	- Cache dependencies for the different stages of the CI
+	- Allow whitelisted IPs to bypass anti-spam/anti-bruteforce systems (#24)
+	- Add breton translation
+
+0.07 2016-12-20
+	- Add logo
+	- Add theme system
+	- Better Spamhaus checking
+	- Add ban system
+	- Add occitan translation
+	- Add Milligram theme
+	- Add cache system
+	- Add hashed_adminpwd option
+
+0.06 2015-09-04
+	- Add Spamhaus checking before accepting the URL
+	- Fix small bug
+
+0.05 2015-07-31
+	- Add copy-to-clipboard button (#1)
+	- Add test suite
+	- Add Net::Domain::TLD >= 1.73 as dependancy
+
+0.04 2015-06-10
+	- Change internationalization system (.po files now)
+	- Fixed domain for shortened URLs system (#12)
+	- Fix XSS vulnerability (#15)
+	- Subdirectory mounting system (#16)
+	- Show your URLs ("stats") page
+	- Show all URLs page for admin (#11)
+	- API description page
+	- API change
+	- Self-documented configuration template
+	- add doc and templates for systemd and sysVinit
+	- add template for nginx
+
+0.03 2013-09-25
+	- FIX #5 again by using transactions
+
+0.02 2013-09-24
+	- use of morbo or hypnotoad servers availables
+	- use of config file
+	- FIX #1 : GET parameters deleted when using /a/*url route
+	- FIX #2 : Can't use morbo or hypnotoad
+	- FIX #3 : Internationalization
+	- FIX #5 : Scalability issues
+
+0.01 2013-09-21
+	- original version;

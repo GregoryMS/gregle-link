@@ -1,0 +1,26 @@
+% # vim:set sw=4 ts=4 sts=4 ft=html.epl expandtab:
+% title 'Lstu';
+<form class="form" method="POST" action="<%== url_for 'add' %>">
+    <fieldset aria-labelledby="lsturl">
+        <label class="sr-only" for="lsturl"><%= l('URL to shorten') %></label>
+        <input type="url" name="lsturl" id="lsturl" class="form-control" placeholder="<%= l('URL to shorten') %>" required>
+        <label class="sr-only" for="lsturl-custom"><%= l('Custom shortened text') %></label>
+        <input type="text" name="lsturl-custom" id="lsturl-custom" class="form-control" placeholder="<%= l('Custom shortened text') %>">
+        <%= submit_button l('Go!'), class => 'button allons-y' %>
+    </fieldset>
+</form>
+
+% if (defined(stash('short')) && defined(stash('url'))) {
+    <fieldset class="result" aria-label="<%= l('The shortened URL') %>">
+        <img class="qrcode-result" alt="QRCode" src="data:image/png;base64,<%= stash('qrcode') %>">
+        <label><%= link_to stash('url') => begin %><h4><%= stash('url') %></h4><%= end %></label>
+        ⟹ <input id="input-short" value="<%== stash('short') %>" class="form-control" size="<%= length(stash('short')) %>">
+        <span id="js" class="hidden"><a href="#" id="clipboard" class="button button-clear" title="<%= l('Copy to clipboard') %>" data-short="<%== stash('short') %>"><h5><span class="icon icon-clipboard"></span></h5></a><span>
+    </fieldset>
+% }
+% if (defined(flash('msg'))) {
+    <h3 class="alert alert-danger"><%= flash('msg') %></h3>
+% }
+% if (defined(stash('msg'))) {
+    <h3 class="alert alert-danger"><%= stash('msg') %></h3>
+% }

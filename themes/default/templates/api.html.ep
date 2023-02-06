@@ -1,0 +1,158 @@
+% # vim:set sw=4 ts=4 sts=4 ft=html.epl expandtab:
+% title 'Lstu API';
+% use Mojo::JSON qw(to_json);
+<h2>Lstu API</h2>
+% if ($self->config('disable_api')) {
+<p>
+    <strong>
+        %= l('Sorry, the API is disabled.')
+        %= l('This page is informational only.')
+    </strong>
+</p>
+% }
+<dl>
+% if (defined $self->config('ldap') || defined $self->config('htpasswd')) {
+    <dt>POST <%= url_for('login')->to_abs %></dt>
+    <dd>
+        <strong><%= l('Parameters:') %></strong>
+        <ul>
+            <li><strong>login</strong> <em><%= l('mandatory') %></em><br><%= l('Your login') %></li>
+            <li><strong>password</strong> <em><%= l('mandatory') %></em><br><%= l('Your password') %></li>
+            <li><strong>format</strong> <em><%= l('optional') %></em><br><%= l('If equal to "json", response will be in JSON format, HTML format otherwise') %></li>
+        </ul>
+        <strong><%= l('Response:') %></strong>
+        <ul>
+            <li><strong><%= l('JSON: success') %></strong><br><code>{"msg":"<%= l('You have been successfully logged in.')%>","success":true}</code></li>
+            <li><strong><%= l('JSON: failure') %></strong><br><code>{"msg":"<%= l('Please, check your credentials: unable to authenticate.') %>","success":false}</code></li>
+            <li><strong><%= l('Response for HTML format') %></strong><br><%= l('You will be redirected to the Lstu classic interface where you will be able to shorten URLs') %></li>
+        </ul>
+    </dd>
+    <dt>GET <%= url_for('logout')->to_abs %></dt>
+    <dd>
+        <p><%= l('Should always be successful') %></p>
+        <strong><%= l('Parameters:') %></strong>
+        <ul>
+            <li><strong>format</strong> <em><%= l('optional') %></em><br><%= l('If equal to "json", response will be in JSON format, HTML format otherwise') %></li>
+        </ul>
+        <strong><%= l('Response:') %></strong>
+        <ul>
+            <li><strong><%= l('JSON: success') %></strong><br><code>{"msg":"<%= l('You have been successfully logged out.')%>","success":true}</code></li>
+            <li><strong><%= l('Response for HTML format') %></strong><br><%= l('You will be redirected to Lstu successfully logged out interface') %></li>
+        </ul>
+    </dd>
+% }
+    <dt>POST <%= url_for('add')->to_abs %></dt>
+    <dd>
+% if (defined $self->config('ldap') || defined $self->config('htpasswd')) {
+        <p><%= l('You must be logged in to use it.') %></p>
+% }
+        <strong><%= l('Parameters:') %></strong>
+        <ul>
+            <li><strong>lsturl</strong> <em><%= l('mandatory') %></em><br><%= l('URL to shorten') %></li>
+            <li><strong>lsturl-custom</strong> <em><%= l('optional') %></em><br><%= l('Custom shortened text')%></li>
+            <li><strong>format</strong> <em><%= l('optional') %></em><br><%= l('If equal to "json", response will be in JSON format, HTML format otherwise') %></li>
+        </ul>
+        <strong><%= l('Response:') %></strong>
+        <ul>
+            % my $u = prefix().url_for('short', short => 'XzQBd6eFa');
+            % $u =~ s#//#/#g;
+            % $u = to_json $u;
+            <li><strong><%= l('JSON: success') %></strong><br><code>{"url":"https:\/\/fiat-tux.fr","short":<%= $u %>,"success":true}</code></li>
+            <li><strong><%= l('JSON: failure') %></strong><br><code>{"msg":"<%= l('Failure reason') %>","success":false}</code></li>
+            <li><strong><%= l('Response for HTML format') %></strong><br><%= l('You will be redirected to the Lstu classic interface with a message giving the shortened URL') %></li>
+        </ul>
+    </dd>
+    <dt>GET <%= url_for('short', short => l('shortened_url'))->to_abs %></dt>
+    <dd>
+        <strong><%= l('Response:') %></strong>
+        <ul>
+            <li>
+                <%= l('You will be redirected to the targeted URL or to the Lstu interface with a message giving the failure reason') %>
+            </li>
+        </ul>
+    </dd>
+    <dt>GET <%= url_for('short', short => l('shortened_url'))->to_abs %>.json</dt>
+    <dd>
+        <strong><%= l('Response:') %></strong>
+        <ul>
+            <li><strong><%= l('JSON: success') %></strong><br><code>{"url":"https:\/\/fiat-tux.fr","success":true}</code></li>
+            <li><strong><%= l('JSON: failure') %></strong><br><code>{"msg":"<%= l('Failure reason') %>","success":false}</code></li>
+        </li>
+    </dd>
+    <dt>GET <%= url_for('stats')->to_abs %></dt>
+    <dd>
+    % if (defined $self->config('ldap') || defined $self->config('htpasswd')) {
+        <p><%= l('You must be logged in to use it.') %></p>
+    % }
+        <p><%= l('It will use Lstu\'s cookies to know which shortened URL it will return statistics for.') %></p>
+    % if (defined(config('adminpwd')) || defined(config('hashed_adminpwd'))) {
+        <p><%= l('If you are logged in as admin ("adminpwd" or "hashed_adminpwd" setting), it will give you statistics for all URLs, sorted by the most visited first, paginated with pages containing %1 records.', config('page_offset')) %></p>
+    % }
+        <strong><%= l('Parameters:') %></strong>
+        <ul>
+    % if (defined(config('adminpwd')) || defined(config('hashed_adminpwd'))) {
+            <li><strong>page</strong> <em><%= l('optional') %></em><br><%= l('If you are logged in as admin, you can provide a "page" parameter') %>
+    % }
+            <li><strong>format</strong> <em><%= l('optional') %></em><br><%= l('If equal to "json", response will be in JSON format, HTML format otherwise') %></li>
+        </ul>
+        <strong><%= l('Response:') %></strong><br>
+        <ul>
+            % $u = prefix().url_for('short', short => l('shortened_url'));
+            % $u =~ s#//#/#g;
+            % $u = to_json $u;
+            <li><strong><%= l('Response for JSON format') %></strong><br><code>[{"short":<%= $u %>,"url":"<%= l('URL') %>","counter":<%= l('integer, how many unique visits of the shortened URL') %>}]</code></li>
+            <li><strong><%= l('Response for HTML format') %></strong><br><%= l('A page with a table containing the same informations that the JSON response') %></li>
+        </ul>
+    </dd>
+    <dt>GET <%= url_for('stats/'.l('shortened_url'))->to_abs %></dt>
+    <dd>
+        <p><%= l('Get the details (visit counter, creation date, etc.) of a shortened URL.') %></p>
+        <strong><%= l('Response:') %></strong>
+        <ul>
+            <li><strong><%= l('JSON: success') %></strong><br><code>{"url":"https:\/\/fiat-tux.fr","short":<%= $u %>,"success":true,"counter":<%= l('integer, how many unique visits of the shortened URL') %>,"created_at":1519296674,"short":"<%= l('URL') %>","timestamp":1519296680}</code></li>
+            <li><strong><%= l('JSON: failure') %></strong><br><code>{"msg":"<%= l('Failure reason') %>","success":false}</code></li>
+        </ul>
+    </dd>
+% if (defined(config('adminpwd')) || defined(config('hashed_adminpwd'))) {
+    <dt>POST <%= url_for('stats')->to_abs %></dt>
+    <dd>
+        <strong><%= l('Parameters:') %></strong>
+        <ul>
+            <li><strong>adminpwd</strong></li> <em><%= l('optional') %></em><br><%= l('To do an admin login, set it to the password defined in the settings ("adminpwd" or "hashed_adminpwd")') %></li>
+            <li><strong>action</strong></li> <em><%= l('optional') %></em><br><%= l('To do an admin logout, set it to "logout".') %></li>
+            <li><strong>format</strong> <em><%= l('optional') %></em><br><%= l('If equal to "json", response will be in JSON format, HTML format otherwise') %></li>
+        </ul>
+        <strong><%= l('Response:') %></strong>
+        <ul>
+            <li><%= l('If "adminpwd" is defined:') %>
+                <ul>
+                    <li><strong><%= l('JSON: success') %></strong><br><code>{"msg":"<%= l('You have been successfully logged in.')%>","success":true}</code></li>
+                    <li><strong><%= l('JSON: failure') %></strong><br><code>{"msg":"<%= l('Bad password') %>","success":false}</code></li>
+                    <li><strong><%= l('Response for HTML format') %></strong><br><%= l('You will have the statistics page with the admin stats if you\'re succesfully logged in, or your stats and a failure message otherwise') %></li>
+                </ul>
+            </li>
+            <li><%= l('If "action" is defined to "logout":') %><br>
+                <%= l('Should always be successful') %></p>
+                <ul>
+                    <li><strong><%= l('JSON: success') %></strong><br><code>{"msg":"<%= l('You have been successfully logged out.')%>","success":true}</code></li>
+                    <li><strong><%= l('Response for HTML format') %></strong><br><%= l('You will be redirected to Lstu statistics page') %></li>
+                </ul>
+            </li>
+        </ul>
+    </dd>
+    <dt>GET <%= url_for('delete', short => l('shortened_url'))->to_abs %></dt>
+    <dd>
+        <p><%= l('You must be logged in as admin ("adminpwd" or "hashed_adminpwd" setting) to use it.') %></p>
+        <strong><%= l('Parameters:') %></strong>
+        <ul>
+            <li><strong>format</strong> <em><%= l('optional') %></em><br><%= l('If equal to "json", response will be in JSON format, HTML format otherwise') %></li>
+        </ul>
+        <strong><%= l('Response:') %></strong>
+        <ul>
+            <li><strong><%= l('JSON: success') %></strong><br><code>{"url":"https:\/\/fiat-tux.fr","short":<%= $u %>,"success":true}</code></li>
+            <li><strong><%= l('JSON: failure') %></strong><br><code>{"msg":"<%= l('Failure reason') %>","success":false}</code></li>
+            <li><strong><%= l('Response for HTML format') %></strong><br><%= l('You will be redirected to Lstu statistics page with a message in case of failure') %></li>
+        </ul>
+    </dd>
+% }
+</dl>
